@@ -1,0 +1,27 @@
+name : CONFIRMAR PROYECTE ENTORNE PUJAT CORRECTAMNET
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  prova-github-actions:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Comprovació del Codi
+        uses: actions/checkout@v6
+        
+      - name: Executa codi bash
+        run: |
+          echo " - Pujat correctament a "`date` >> README.md   
+      - name: commit i push
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git add --all
+          git commit -m "README actualizat amb exit. Proyecte pujat"
+          git push
