@@ -25,4 +25,16 @@ fun main() {
     println(m1.validarElemento(nombreElemento))
     println("=========================");
     println(m1.anyadirLista(nombreElemento))
+
+    //Conexion a la base de datos
+    var servidor = "jdbc:mariadb://localhost:3306/RPG_players"
+    var usuario = "root"
+    var contrasenya = "root"
+    var base = "RPG_players"
+
+    val baseDatos = Conection(servidor, usuario, contrasenya, base)
+
+    baseDatos.getConnection(servidor, usuario, contrasenya)
+
+    //Falta el driver jdbc tanto para kotlin como para java
 }
