@@ -14,9 +14,11 @@ fun main() {
         println("i = ($i + 1)")
     }
 
-
     println("Introduce el nombre de la magia")
     var nombreElemento = readln()
+
+    var p1 = Personajes("Rigoberto", "Sorio", nombreElemento)
+    println(p1);
 
     var m1 = Magia(nombreElemento)
 
@@ -24,7 +26,7 @@ fun main() {
     println("=========================");
     println(m1.validarElemento(nombreElemento))
     println("=========================");
-    println(m1.anyadirLista(nombreElemento))
+    //println(m1.anyadirLista(nombreElemento))
 
     //Conexion a la base de datos
     var servidor = "jdbc:mariadb://localhost:3306/RPG_players"
