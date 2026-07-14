@@ -5,3 +5,4 @@ Simple repositori creat per un joc de magia
 =======
 
 >>>>>>> a4dc2ad (Commit)
+ - Pujat correctament a Tue Jul 14 23:28:48 UTC 2026
