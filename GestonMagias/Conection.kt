@@ -2,6 +2,8 @@ package GestonMagias
 
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 
 class Conection (
     private var server: String,
@@ -24,7 +26,7 @@ class Conection (
     }
 
     fun setUser(user:String){
-        this.server = server
+        this.user = user
     }
 
     fun getPassword():String{
@@ -46,6 +48,9 @@ class Conection (
     //Realizar la conexion
 
     fun getConnection(server: String, user: String, password: String): Connection {
+
+        Class.forName("org.mariadb.jdbc.Driver") //Donar permis a la conexio amb la base de dades
+
         return try {
             val connect = DriverManager.getConnection(server, user, password)
             println("Conexion realizada con exito")
