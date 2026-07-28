@@ -13,3 +13,4 @@ Simple repositori creat per un joc de magia
  - Pujat correctament a Wed Jul 15 08:47:45 UTC 2026
  - Pujat correctament a Wed Jul 15 09:44:33 UTC 2026
  - Pujat correctament a Thu Jul 23 06:57:26 UTC 2026
+ - Pujat correctament a Tue Jul 28 21:00:45 UTC 2026
