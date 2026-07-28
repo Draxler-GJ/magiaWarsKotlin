@@ -45,23 +45,85 @@ fun main() {
 
     //Falta el driver jdbc tanto para kotlin como para java
     //Driver instalado
-    println("Introduzca una opcion")
-    var opcion = readln().toIntOrNull()
 
-    when(opcion){
-        1 -> {
-            println("Consultar")
-            realizarConsulta(con.getConnection(servidor, usuario, contrasenya))
+    println("""
+        GESTIÓN DE VIDEOJUEGO RPG_PLAYERS
+          ==============================
+        Magia:
+            1-> Mostrar todas las mágias
+            2-> Insertar nueva Magia
+            3-> Actualización de datos
+            4-> Eliminr magia
+            O-> Fin
+        Personaje:
+            1-> Mostrar todos los personajes
+            2-> Insertar nuevo personaje
+            3-> Actualización info. del personaje
+            4-> Eliminar personaje
+            0-> Fin
+        
+    """.trimIndent())
+
+    println("Introduzca una opcion")
+    var palabra = readln()
+
+    when(palabra){
+
+        "magia" -> {
+            println("Magia seleccionada. Escoje una opción")
+            var opcion = readln().toIntOrNull()
+
+            when(opcion){
+                1 -> {
+                    println("Consultar")
+                    realizarConsulta(con.getConnection(servidor, usuario, contrasenya))
+                }
+                2 -> {
+                    println("Insertar")
+                    insertarPersonajes(conexion)
+                }
+                3 -> {
+                    println("Actualizar")
+                    actualizarDatos(conexion)
+                }
+                4 -> {
+                    println("Eliminar")
+                    eliminarRegistros(conexion)
+                }
+                else -> println("Fin del programa")
+            }
         }
-        2 -> {
-            println("Insertar")
-            insertarPersonajes(conexion)
+
+        "personaje" -> {
+            println("Personajes seleccionado. Introduce una opción")
+            var opcion = readln().toIntOrNull()
+
+            when(opcion){
+                1 -> {
+                    println("Consultar")
+                    //realizarConsulta(con.getConnection(servidor, usuario, contrasenya))
+                }
+                2 -> {
+                    println("Insertar")
+                    //insertarPersonajes(conexion)
+                }
+                3 -> {
+                    println("Actualizar")
+                    //actualizarPersonaje(conexion)
+                }
+                4 -> {
+                    println("Eliminar")
+                    //eliminarPersonaje(conexion)
+                }
+                else -> println("Fin del programa")
+            }
         }
-        3 -> println("Actualizar -> Proximamente")
-        4 -> println("Eliminar -> Proximamente")
         else -> println("Fin del programa")
+
     }
 }
+
+//Funciones para gestionar la tabla magias
 
 fun realizarConsulta(conexion: Connection){
     val st = conexion.createStatement()
@@ -101,12 +163,63 @@ fun insertarPersonajes(conexion: Connection){
 fun actualizarDatos(conexion: Connection){
     //funcion creada para actualizar registros en caso de que sean necesarios
     println("Id a actualizar")
-    //var id = readln()
+    println("Id a introducir")
+    var id = readln()
+    println("Introduce el nombre de una nueva magia")
+    var nombreMagia = readln()
+    //println("Introduce una descripcion acorde a ella")
+    //var descripcion = readln()
+
+    try {
+
+        //val st = conexion.prepareStatement(st)
+        val st = conexion.createStatement()
+        val inserFilas = st.executeUpdate("UPDATE magia SET nombre_magia = '$nombreMagia' WHERE id_magia = $id")
+
+        if(inserFilas > 0){
+            println("Datos actualizados con exito")
+        }else {
+            println("Actualizado de datos errado.")
+        }
+    }catch(e: SQLSyntaxErrorException){
+        println("Error de actualización: ${e.message}")
+    }
 
 }
 
 fun eliminarRegistros(conexion: Connection){
         //funcion creada nica y exclusivamente para borrar datos en caso de ser necesarios
     println("Introduce Id a Eliminar")
-    //var id = readln()
+    println("Id a introducir")
+    var id = readln()
+
+    try {
+
+        //val st = conexion.prepareStatement(st)
+        val st = conexion.createStatement()
+        val inserFilas = st.executeUpdate("DELETE FROM magia WHERE ìd_magia = $id")
+
+        if(inserFilas > 0){
+            println("Datos eliminados!!")
+        }else {
+            println("Los datos no se pudieron borrar")
+        }
+    }catch(e: SQLSyntaxErrorException){
+        println("Error de eliminación: ${e.message}")
+    }
 }
+
+//Funciones de gestionado de prsonajes
+
+/*
+* fun mostrarPersonajes(conexion){}
+*
+* fun actualizarPersonaje(conexion){}
+*
+* fun insertarPersonaje(conexion){}
+*
+* fun eliminarPersonaje(conexion){}
+*
+*
+* Posteriomente se haran uso de las clases Personaje y Magia para más precision y uso De Coleccciones
+*/
