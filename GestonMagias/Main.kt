@@ -150,7 +150,7 @@ fun insertarMagia(conexion: Connection){
 
         //val st = conexion.prepareStatement(st)
         val st = conexion.createStatement()
-        val inserFilas = st.executeUpdate("INSERT INTO magia(id_magia,nombre_magia,descripcion) VALUES ('$id','$nombreMagia', '$descripcion')")
+        val inserFilas = st.executeUpdate("INSERT INTO magia(id_magia,nombre_magia,descripcion) VALUES ($id,'$nombreMagia', '$descripcion')")
 
         if(inserFilas > 0){
             println("Insercion realizada con exito")
@@ -199,7 +199,7 @@ fun eliminarRegistros(conexion: Connection){
 
         //val st = conexion.prepareStatement(st)
         val st = conexion.createStatement()
-        val inserFilas = st.executeUpdate("DELETE FROM magia WHERE ìd_magia = $id")
+        val inserFilas = st.executeUpdate("DELETE FROM magia WHERE id_magia = $id")
 
         if(inserFilas > 0){
             println("Datos eliminados!!")
@@ -228,11 +228,11 @@ fun eliminarRegistros(conexion: Connection){
 
 fun mostrarPersonajes(conexion: Connection){
     val st = conexion.createStatement()
-    val consulta = st.executeQuery("SELECT nom_personaje, nombre_magia FROM  personajes JOIN magia WHERE especialidad = id_magia")
+    val consulta = st.executeQuery("SELECT p.nom_personaje, m.nombre_magia FROM  personajes AS p JOIN magia AS m ON p.especialidad = m.id_magia")
 
     while(consulta.next()){
         println("========================================================================================================")
-        println("${consulta.getString("nom_personaje")} -> ${consulta.getString("especialidad")}")
+        println("${consulta.getString("nom_personaje")} -> ${consulta.getString("nombre_magia")}")
     }
 }
 
@@ -244,14 +244,14 @@ fun insertarPersonaje(conexion: Connection){
     var nombrePersonaje = readln()
     println("¿Donde vive?")
     var localidad = readln()
-    println("=¿Especialidad?")
+    println("¿Especialidad?")
     var especialidad = readln()
 
     try {
 
         //val st = conexion.prepareStatement(st)
         val st = conexion.createStatement()
-        val inserFilas = st.executeUpdate("INSERT INTO magia(id_personaje,nom_personaje,localidad) VALUES ('$id','$nombrePersonaje', '$localidad', $especialidad)")
+        val inserFilas = st.executeUpdate("INSERT INTO personajes(id_personaje,nom_personaje,localidad, especialidad) VALUES ($id,'$nombrePersonaje', '$localidad', $especialidad)")
 
         if(inserFilas > 0){
             println("Insercion realizada con exito")
@@ -277,7 +277,7 @@ fun actualizarDatosPersonaje(conexion: Connection){
 
         //val st = conexion.prepareStatement(st)
         val st = conexion.createStatement()
-        val inserFilas = st.executeUpdate("UPDATE magia SET nombre_magia = '$nombrePersonaje' WHERE id_personaje = $id")
+        val inserFilas = st.executeUpdate("UPDATE magia SET nom_personaje = '$nombrePersonaje' WHERE id_personaje = $id")
 
         if(inserFilas > 0){
             println("Datos actualizados con exito")
@@ -300,7 +300,7 @@ fun eliminarPersonaje(conexion: Connection){
 
         //val st = conexion.prepareStatement(st)
         val st = conexion.createStatement()
-        val inserFilas = st.executeUpdate("DELETE FROM magia WHERE ìd_personaje = $id")
+        val inserFilas = st.executeUpdate("DELETE FROM magia WHERE `id_personaje` = $id")
 
         if(inserFilas > 0){
             println("Datos eliminados!!")
