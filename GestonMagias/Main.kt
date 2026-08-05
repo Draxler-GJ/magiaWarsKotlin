@@ -17,17 +17,17 @@ fun main() {
         println("i = ($i + 1)")
     }
 
-    println("Introduce el nombre de la magia")
-    var nombreElemento = readln()
+    //println("Introduce el nombre de la magia")
+    //var nombreElemento = readln()
 
-    var p1 = Personajes("Rigoberto", "Sorio", nombreElemento)
-    println(p1);
+    //var p1 = Personajes("Rigoberto", "Sorio", nombreElemento)
+    //println(p1);
 
-    var m1 = Magia(nombreElemento)
+    //var m1 = Magia(nombreElemento)
 
-    println(m1.toString())
-    println("=========================");
-    println(m1.validarElemento(nombreElemento))
+    //println(m1.toString())
+    //println("=========================");
+    //println(m1.validarElemento(nombreElemento))
     println("=========================");
     //println(m1.anyadirLista(nombreElemento))
 
@@ -67,60 +67,62 @@ fun main() {
     println("Introduzca una opcion")
     var palabra = readln()
 
-    when(palabra){
+    var opcionMenu = 0;
+       when(palabra){
 
-        "magia" -> {
-            println("Magia seleccionada. Escoje una opción")
-            var opcion = readln().toIntOrNull()
+           "magia" -> {
+               println("Magia seleccionada. Escoje una opción")
+               var opcionMenu = readln().toIntOrNull()
 
-            when(opcion){
-                1 -> {
-                    println("Consultar")
-                    realizarConsulta(con.getConnection(servidor, usuario, contrasenya))
-                }
-                2 -> {
-                    println("Insertar")
-                    insertarPersonajes(conexion)
-                }
-                3 -> {
-                    println("Actualizar")
-                    actualizarDatos(conexion)
-                }
-                4 -> {
-                    println("Eliminar")
-                    eliminarRegistros(conexion)
-                }
-                else -> println("Fin del programa")
-            }
-        }
+               when(opcionMenu){
+                   1 -> {
+                       println("Consultar")
+                       realizarConsulta(con.getConnection(servidor, usuario, contrasenya))
+                   }
+                   2 -> {
+                       println("Insertar")
+                       insertarMagia(conexion)
+                   }
+                   3 -> {
+                       println("Actualizar")
+                       actualizarDatos(conexion)
+                   }
+                   4 -> {
+                       println("Eliminar")
+                       eliminarRegistros(conexion)
+                   }
+                   else -> println("Fin del programa")
+               }
+           }
 
-        "personaje" -> {
-            println("Personajes seleccionado. Introduce una opción")
-            var opcion = readln().toIntOrNull()
+           "personaje" -> {
+               println("Personajes seleccionado. Introduce una opción")
+               var opcionMenu = readln().toIntOrNull()
 
-            when(opcion){
-                1 -> {
-                    println("Consultar")
-                    //realizarConsulta(con.getConnection(servidor, usuario, contrasenya))
-                }
-                2 -> {
-                    println("Insertar")
-                    //insertarPersonajes(conexion)
-                }
-                3 -> {
-                    println("Actualizar")
-                    //actualizarPersonaje(conexion)
-                }
-                4 -> {
-                    println("Eliminar")
-                    //eliminarPersonaje(conexion)
-                }
-                else -> println("Fin del programa")
-            }
-        }
-        else -> println("Fin del programa")
+               when(opcionMenu){
+                   1 -> {
+                       println("Consultar")
+                       mostrarPersonajes(con.getConnection(servidor, usuario, contrasenya))
+                   }
+                   2 -> {
+                       println("Insertar")
+                       insertarPersonaje(conexion)
+                   }
+                   3 -> {
+                       println("Actualizar")
+                       actualizarDatosPersonaje(conexion)
+                   }
+                   4 -> {
+                       println("Eliminar")
+                       eliminarPersonaje(conexion)
+                   }
+                   else -> println("Fin del programa")
+               }
+           }
+           else -> println("Fin del programa")
 
-    }
+       }
+
 }
 
 //Funciones para gestionar la tabla magias
@@ -135,7 +137,7 @@ fun realizarConsulta(conexion: Connection){
     }
 }
 
-fun insertarPersonajes(conexion: Connection){
+fun insertarMagia(conexion: Connection){
     //funcion creada para insetar personajes o magias dependiendo de la tabla
     println("Id a introducir")
     var id = readln()
@@ -223,3 +225,89 @@ fun eliminarRegistros(conexion: Connection){
 *
 * Posteriomente se haran uso de las clases Personaje y Magia para más precision y uso De Coleccciones
 */
+
+fun mostrarPersonajes(conexion: Connection){
+    val st = conexion.createStatement()
+    val consulta = st.executeQuery("SELECT nom_personaje, nombre_magia FROM  personajes JOIN magia WHERE especialidad = id_magia")
+
+    while(consulta.next()){
+        println("========================================================================================================")
+        println("${consulta.getString("nom_personaje")} -> ${consulta.getString("especialidad")}")
+    }
+}
+
+fun insertarPersonaje(conexion: Connection){
+    //funcion creada para insetar personajes o magias dependiendo de la tabla
+    println("Id a introducir")
+    var id = readln()
+    println("Introduce el nombre del nuevo personaje")
+    var nombrePersonaje = readln()
+    println("¿Donde vive?")
+    var localidad = readln()
+    println("=¿Especialidad?")
+    var especialidad = readln()
+
+    try {
+
+        //val st = conexion.prepareStatement(st)
+        val st = conexion.createStatement()
+        val inserFilas = st.executeUpdate("INSERT INTO magia(id_personaje,nom_personaje,localidad) VALUES ('$id','$nombrePersonaje', '$localidad', $especialidad)")
+
+        if(inserFilas > 0){
+            println("Insercion realizada con exito")
+        }else {
+            println("No se pudieron insertar los datos")
+        }
+    }catch(e: SQLSyntaxErrorException){
+        println("Error de insecion: ${e.message}")
+    }
+}
+
+fun actualizarDatosPersonaje(conexion: Connection){
+    //funcion creada para actualizar registros en caso de que sean necesarios
+    println("Id a actualizar")
+    //println("Id a introducir")
+    var id = readln()
+    println("Introduce el nombre de una nueva magia")
+    var nombrePersonaje = readln()
+    //println("Introduce una descripcion acorde a ella")
+    //var descripcion = readln()
+
+    try {
+
+        //val st = conexion.prepareStatement(st)
+        val st = conexion.createStatement()
+        val inserFilas = st.executeUpdate("UPDATE magia SET nombre_magia = '$nombrePersonaje' WHERE id_personaje = $id")
+
+        if(inserFilas > 0){
+            println("Datos actualizados con exito")
+        }else {
+            println("Actualizado de datos errado.")
+        }
+    }catch(e: SQLSyntaxErrorException){
+        println("Error de actualización: ${e.message}")
+    }
+
+}
+
+fun eliminarPersonaje(conexion: Connection){
+    //funcion creada nica y exclusivamente para borrar datos en caso de ser necesarios
+    println("Introduce Id a Eliminar")
+    println("Id a introducir")
+    var id = readln()
+
+    try {
+
+        //val st = conexion.prepareStatement(st)
+        val st = conexion.createStatement()
+        val inserFilas = st.executeUpdate("DELETE FROM magia WHERE ìd_personaje = $id")
+
+        if(inserFilas > 0){
+            println("Datos eliminados!!")
+        }else {
+            println("Los datos no se pudieron borrar")
+        }
+    }catch(e: SQLSyntaxErrorException){
+        println("Error de eliminación: ${e.message}")
+    }
+}
