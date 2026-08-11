@@ -3,7 +3,8 @@ package GestonMagias
 import kotlin.compareTo
 
 class Magia (
-    private var nombre: String
+    private var nombre: String,
+    private var descripcion: String
 ){
     fun getNombre(): String{
         return this.nombre
@@ -13,11 +14,20 @@ class Magia (
         this.nombre = nombre
     }
 
+    fun getDescripcion(): String{
+        return this.descripcion
+    }
+
+    fun setDescripcion(descripcion: String){
+        this.descripcion = descripcion
+    }
+
+
     //Un metodo sobreescrito debe poner el overide delante del
     //nombre de la funcion, a diferencia de java que va arriba con un @
     //@Override
     override fun toString():String{
-        return "La magia se llama $nombre"
+        return "La magia se llama $nombre y esta es su inforación al respecto: $descripcion"
     }
 
     fun anyadirLista(elemento :String) {

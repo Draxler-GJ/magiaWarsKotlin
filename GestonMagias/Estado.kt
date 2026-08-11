@@ -1,0 +1,5 @@
+package GestonMagias
+
+enum class Estado {
+    ENVENENADO, PARALIZADO, DORMIDO, PETRIFICADO, CIEGO, CONGELADO, QUEMADO
+}
