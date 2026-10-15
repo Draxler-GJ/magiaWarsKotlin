@@ -65,9 +65,19 @@ fun main() {
     """.trimIndent())
 
     println("Introduzca una opcion")
-    var palabra = readln()
+    var palabra = readln().lowercase()
+    //Es es equivalent de .toLowerCase() de Java i JavaScript
+    //o strtolower() en PHP
 
-    var opcionMenu = 0;
+    /*
+    * Per a upperCase()
+    * Kotlin -> .uppercase()
+    * Java -> .toUpperCase()
+    * JS/TS -> .toUpperCase()
+    * PHP -> strtoupper()
+    * */
+
+    var opcionMenu = 0
        when(palabra){
 
            "magia" -> {
